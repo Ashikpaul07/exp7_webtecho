@@ -1,0 +1,830 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GameVerse - Gaming Community</title>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #0a0b14;
+    --panel: #131626;
+    --purple: #a855f7;
+    --cyan: #22d3ee;
+    --text: #f4f4ff;
+    --muted: #a1a1b5;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+header {
+    padding: 20px 7%;
+    background: #101221;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    border-bottom: 1px solid #292b40;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: var(--purple);
+}
+
+header p {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 14px;
+    background: #17192b;
+}
+
+button, select, input {
+    font: inherit;
+}
+
+nav button, .btn {
+    border: 0;
+    border-radius: 7px;
+    padding: 10px 16px;
+    cursor: pointer;
+    background: var(--purple);
+    color: white;
+    transition: 0.25s;
+}
+
+nav button {
+    background: transparent;
+}
+
+nav button:hover, nav button.active {
+    background: var(--purple);
+}
+
+.btn:hover {
+    background: #8735d8;
+    transform: translateY(-2px);
+}
+
+main {
+    width: 90%;
+    max-width: 1150px;
+    margin: 28px auto;
+}
+
+section {
+    margin-bottom: 25px;
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid #292b40;
+    border-radius: 14px;
+    padding: 25px;
+    margin-bottom: 22px;
+}
+
+h2 {
+    margin-bottom: 8px;
+    font-size: 26px;
+}
+
+h3 {
+    margin: 12px 0 6px;
+}
+
+p {
+    color: var(--muted);
+}
+
+.hero {
+    min-height: 350px;
+    padding: 55px 35px;
+    border-radius: 16px;
+    background:
+        linear-gradient(90deg, rgba(8,9,20,.96),
+        rgba(8,9,20,.55)),
+        url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1400&q=85")
+        center/cover;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.tag {
+    color: var(--cyan);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.hero h1 {
+    font-size: clamp(34px, 6vw, 58px);
+    line-height: 1.1;
+    margin: 15px 0;
+}
+
+.hero h1 span {
+    color: var(--purple);
+}
+
+.hero p {
+    max-width: 500px;
+    margin-bottom: 22px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.game-card {
+    background: #191c30;
+    border: 1px solid #30334a;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: .25s;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--purple);
+    box-shadow: 0 8px 25px #a855f722;
+}
+
+.game-card img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    display: block;
+}
+
+.game-content {
+    padding: 15px;
+}
+
+.game-content p {
+    font-size: 14px;
+    margin: 8px 0 14px;
+}
+
+.status {
+    display: inline-block;
+    color: var(--cyan);
+    background: #22d3ee15;
+    padding: 4px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 15px 0;
+}
+
+input, select {
+    padding: 11px;
+    border-radius: 7px;
+    border: 1px solid #373a52;
+    background: #0d0f1b;
+    color: white;
+    width: 100%;
+}
+
+.controls input, .controls select {
+    flex: 1;
+    min-width: 180px;
+}
+
+label {
+    display: block;
+    margin: 13px 0 6px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 13px 10px;
+    text-align: left;
+    border-bottom: 1px solid #303249;
+}
+
+th {
+    color: var(--cyan);
+    font-size: 13px;
+}
+
+.rank {
+    color: var(--purple);
+    font-weight: bold;
+}
+
+.score {
+    color: var(--cyan);
+    font-weight: bold;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.result {
+    padding: 13px;
+    margin-top: 10px;
+    border-radius: 7px;
+    background: #20233a;
+    border-left: 3px solid var(--cyan);
+}
+
+.setup-preview {
+    min-height: 210px;
+    border: 1px solid #353850;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+    background: #0d0f1b;
+}
+
+.rgb-box {
+    width: 100px;
+    height: 70px;
+    border: 3px solid var(--purple);
+    border-radius: 12px;
+    box-shadow: 0 0 20px var(--purple);
+}
+
+footer {
+    background: #101221;
+    padding: 25px;
+    text-align: center;
+    border-top: 1px solid #292b40;
+}
+
+footer strong {
+    color: var(--purple);
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 750px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero {
+        padding: 35px 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    main {
+        width: 94%;
+    }
+
+    .panel {
+        padding: 17px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 9px 5px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <div class="logo">GAME<span>VERSE</span></div>
+        <p>YOUR WORLD. YOUR GAME. YOUR COMMUNITY.</p>
+    </div>
+    <p>● GAMERS ONLINE: <strong id="online">1,284</strong></p>
+</header>
+
+<nav>
+    <button class="active" data-page="home">HOME</button>
+    <button data-page="games">GAME ZONE</button>
+    <button data-page="arena">LEADERBOARD</button>
+    <button data-page="custom">CUSTOM LAB</button>
+</nav>
+
+<main>
+
+<!-- HOME -->
+<section id="home">
+    <div class="hero">
+        <span class="tag">WELCOME TO GAMEVERSE</span>
+        <h1>LEVEL UP YOUR<br><span>GAMING WORLD.</span></h1>
+        <p>
+            Discover exciting games, compete with other players,
+            track your rankings, and build your ultimate gaming setup.
+        </p>
+        <button class="btn" id="explore">EXPLORE GAMES →</button>
+    </div>
+
+    <div class="panel">
+        <span class="tag">COMMUNITY HUB</span>
+        <h2>More Than Just Gaming</h2>
+        <p>Find your next favourite game, challenge your friends,
+        and become part of a growing gaming community.</p>
+
+        <div class="grid">
+            <div class="game-card">
+                <div class="game-content">
+                    <span class="status">DISCOVER</span>
+                    <h3>Game Library</h3>
+                    <p>Explore games across different genres.</p>
+                    <button class="btn go-games">Explore</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-content">
+                    <span class="status">COMPETE</span>
+                    <h3>Player Arena</h3>
+                    <p>Check player rankings and high scores.</p>
+                    <button class="btn go-arena">View Ranks</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-content">
+                    <span class="status">CUSTOMIZE</span>
+                    <h3>Setup Studio</h3>
+                    <p>Design your dream gaming station.</p>
+                    <button class="btn go-custom">Customize</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GAME ZONE -->
+<section id="games" hidden>
+    <div class="panel">
+        <span class="tag">01 / DISCOVER</span>
+        <h2>Explore the Game Zone</h2>
+        <p>Choose a game and discover your next adventure.</p>
+
+        <div class="controls">
+            <input type="text" id="gameSearch"
+                   placeholder="Search games...">
+
+            <select id="genreFilter">
+                <option value="all">All Genres</option>
+                <option value="action">Action</option>
+                <option value="battle">Battle Royale</option>
+                <option value="sandbox">Sandbox</option>
+                <option value="sports">Sports</option>
+            </select>
+        </div>
+
+        <div class="grid" id="gameGrid">
+
+            <div class="game-card" data-genre="action"
+                 data-name="valorant">
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80"
+                     alt="Esports gaming">
+                <div class="game-content">
+                    <span class="status">ACTION</span>
+                    <h3>Valorant</h3>
+                    <p>Test your strategy and precision in tactical battles.</p>
+                    <button class="btn details"
+                            data-info="Valorant is a tactical team-based shooter focused on strategy and precise aim.">
+                        Game Details
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-card" data-genre="battle"
+                 data-name="fortnite">
+                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=600&q=80"
+                     alt="Gaming station">
+                <div class="game-content">
+                    <span class="status">BATTLE ROYALE</span>
+                    <h3>Fortnite</h3>
+                    <p>Explore a colourful world of survival and creativity.</p>
+                    <button class="btn details"
+                            data-info="Fortnite combines battle royale gameplay, building, and creative experiences.">
+                        Game Details
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-card" data-genre="sandbox"
+                 data-name="minecraft">
+                <img src="https://images.unsplash.com/photo-1587573089734-599851b5c0b8?auto=format&fit=crop&w=600&q=80"
+                     alt="Creative gaming world">
+                <div class="game-content">
+                    <span class="status">SANDBOX</span>
+                    <h3>Minecraft</h3>
+                    <p>Build, explore, and create your own world.</p>
+                    <button class="btn details"
+                            data-info="Minecraft lets players explore, gather resources, and build imaginative worlds.">
+                        Game Details
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-card" data-genre="sports"
+                 data-name="rocket league">
+                <img src="https://images.unsplash.com/photo-1511882150382-421056c89033?auto=format&fit=crop&w=600&q=80"
+                     alt="Sports gaming">
+                <div class="game-content">
+                    <span class="status">SPORTS</span>
+                    <h3>Rocket League</h3>
+                    <p>Combine football and high-speed car action.</p>
+                    <button class="btn details"
+                            data-info="Rocket League combines arcade-style vehicles with football-inspired competition.">
+                        Game Details
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-card" data-genre="action"
+                 data-name="apex legends">
+                <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=600&q=80"
+                     alt="Video game controller">
+                <div class="game-content">
+                    <span class="status">ACTION</span>
+                    <h3>Apex Legends</h3>
+                    <p>Team up and compete in a fast-paced arena.</p>
+                    <button class="btn details"
+                            data-info="Apex Legends is a squad-based battle royale shooter featuring unique characters.">
+                        Game Details
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-card" data-genre="sports"
+                 data-name="ea sports fc">
+                <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=600&q=80"
+                     alt="Football field">
+                <div class="game-content">
+                    <span class="status">SPORTS</span>
+                    <h3>EA Sports FC</h3>
+                    <p>Experience football, teams, and competition.</p>
+                    <button class="btn details"
+                            data-info="EA Sports FC is a football simulation game featuring teams and competitive matches.">
+                        Game Details
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <p id="noGames" hidden>No games found. Try another search.</p>
+    </div>
+</section>
+
+<!-- LEADERBOARD -->
+<section id="arena" hidden>
+    <div class="panel">
+        <span class="tag">02 / COMPETE</span>
+        <h2>Player Arena</h2>
+        <p>Meet the top players in our demo community leaderboard.</p>
+
+        <div class="controls">
+            <input type="text" id="playerSearch"
+                   placeholder="Search player name...">
+            <button class="btn" id="sortScores">Sort by Score ↓</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>RANK</th>
+                    <th>PLAYER</th>
+                    <th>FAVOURITE GAME</th>
+                    <th>SCORE</th>
+                </tr>
+            </thead>
+            <tbody id="playerRows">
+                <tr data-score="9850">
+                    <td class="rank">#1</td>
+                    <td>ShadowX</td>
+                    <td>Valorant</td>
+                    <td class="score">9850</td>
+                </tr>
+                <tr data-score="9200">
+                    <td class="rank">#2</td>
+                    <td>NightWolf</td>
+                    <td>Apex Legends</td>
+                    <td class="score">9200</td>
+                </tr>
+                <tr data-score="8750">
+                    <td class="rank">#3</td>
+                    <td>PixelKing</td>
+                    <td>Minecraft</td>
+                    <td class="score">8750</td>
+                </tr>
+                <tr data-score="8100">
+                    <td class="rank">#4</td>
+                    <td>CyberAce</td>
+                    <td>Fortnite</td>
+                    <td class="score">8100</td>
+                </tr>
+                <tr data-score="7600">
+                    <td class="rank">#5</td>
+                    <td>GameMaster</td>
+                    <td>EA Sports FC</td>
+                    <td class="score">7600</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p id="noPlayers" hidden>No players found.</p>
+        <p style="margin-top:15px;font-size:12px">
+            Note: These are sample leaderboard scores for demonstration.
+        </p>
+    </div>
+</section>
+
+<!-- CUSTOM LAB -->
+<section id="custom" hidden>
+    <div class="panel">
+        <span class="tag">03 / BUILD YOUR SETUP</span>
+        <h2>Gaming Setup Custom Lab</h2>
+        <p>Choose your accessories and RGB colour to create a setup.</p>
+
+        <div class="form-grid">
+            <div>
+                <label for="keyboard">Gaming Keyboard (₹)</label>
+                <select id="keyboard">
+                    <option value="1500">Basic - ₹1,500</option>
+                    <option value="3500">RGB - ₹3,500</option>
+                    <option value="6000">Mechanical Pro - ₹6,000</option>
+                </select>
+
+                <label for="mouse">Gaming Mouse (₹)</label>
+                <select id="mouse">
+                    <option value="800">Basic - ₹800</option>
+                    <option value="1800">RGB - ₹1,800</option>
+                    <option value="3500">Pro Gaming - ₹3,500</option>
+                </select>
+
+                <label for="headset">Gaming Headset (₹)</label>
+                <select id="headset">
+                    <option value="1200">Basic - ₹1,200</option>
+                    <option value="2800">Surround Sound - ₹2,800</option>
+                    <option value="5000">Premium - ₹5,000</option>
+                </select>
+
+                <label for="rgb">RGB Colour</label>
+                <select id="rgb">
+                    <option value="#a855f7">Neon Purple</option>
+                    <option value="#22d3ee">Cyber Cyan</option>
+                    <option value="#22c55e">Electric Green</option>
+                    <option value="#f43f5e">Gaming Red</option>
+                    <option value="#facc15">Gold</option>
+                </select>
+
+                <div class="controls">
+                    <button class="btn" id="calculate">Calculate Budget</button>
+                    <button class="btn" id="reset">Reset</button>
+                </div>
+            </div>
+
+            <div>
+                <h3>Your RGB Preview</h3>
+                <div class="setup-preview" id="preview">
+                    <div class="rgb-box"></div>
+                    <strong>MY GAMING SETUP</strong>
+                    <p>Customise your colours</p>
+                </div>
+                <div id="budgetResult"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <strong>GAMEVERSE</strong>
+    <p>Built for gamers, powered by community.</p>
+    <p>© 2026 GameVerse Gaming Community | Demo Website</p>
+</footer>
+
+<script>
+$(document).ready(function () {
+
+    // Navigation between sections
+    function showPage(page) {
+        $("main section").prop("hidden", true);
+        $("#" + page).prop("hidden", false);
+
+        $("nav button").removeClass("active");
+        $('nav button[data-page="' + page + '"]').addClass("active");
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    $("nav button").click(function () {
+        showPage($(this).data("page"));
+    });
+
+    $("#explore, .go-games").click(function () {
+        showPage("games");
+    });
+
+    $(".go-arena").click(function () {
+        showPage("arena");
+    });
+
+    $(".go-custom").click(function () {
+        showPage("custom");
+    });
+
+    // Search and filter games
+    function filterGames() {
+        let search = $("#gameSearch").val().toLowerCase();
+        let genre = $("#genreFilter").val();
+        let visible = 0;
+
+        $("#gameGrid .game-card").each(function () {
+            let name = $(this).data("name");
+            let category = $(this).data("genre");
+
+            let matchesName = name.includes(search);
+            let matchesGenre = genre === "all" || category === genre;
+            let matches = matchesName && matchesGenre;
+
+            $(this).toggle(matches);
+
+            if (matches) visible++;
+        });
+
+        $("#noGames").prop("hidden", visible !== 0);
+    }
+
+    $("#gameSearch, #genreFilter").on("input change", filterGames);
+
+    // Show game details
+    $(".details").click(function () {
+        alert($(this).data("info"));
+    });
+
+    // Search leaderboard
+    function filterPlayers() {
+        let search = $("#playerSearch").val().toLowerCase();
+        let visible = 0;
+
+        $("#playerRows tr").each(function () {
+            let matches = $(this).text().toLowerCase().includes(search);
+            $(this).toggle(matches);
+
+            if (matches) visible++;
+        });
+
+        $("#noPlayers").prop("hidden", visible !== 0);
+    }
+
+    $("#playerSearch").on("input", filterPlayers);
+
+    // Sort leaderboard by score
+    let descending = true;
+
+    $("#sortScores").click(function () {
+        let rows = $("#playerRows tr").get();
+
+        rows.sort(function (a, b) {
+            let scoreA = Number($(a).data("score"));
+            let scoreB = Number($(b).data("score"));
+
+            return descending ? scoreB - scoreA : scoreA - scoreB;
+        });
+
+        $.each(rows, function (index, row) {
+            $("#playerRows").append(row);
+            $(row).find(".rank").text("#" + (index + 1));
+        });
+
+        descending = !descending;
+
+        $(this).text(
+            descending ? "Sort by Score ↓" : "Sort by Score ↑"
+        );
+
+        filterPlayers();
+    });
+
+    // Change RGB preview colour
+    function updateRGB() {
+        let colour = $("#rgb").val();
+
+        $(".rgb-box").css({
+            "border-color": colour,
+            "box-shadow": "0 0 25px " + colour
+        });
+
+        $("#preview").css({
+            "border-color": colour
+        });
+    }
+
+    $("#rgb").change(updateRGB);
+
+    // Calculate gaming setup budget
+    $("#calculate").click(function () {
+        let keyboard = Number($("#keyboard").val());
+        let mouse = Number($("#mouse").val());
+        let headset = Number($("#headset").val());
+
+        let total = keyboard + mouse + headset;
+
+        $("#budgetResult").html(
+            '<div class="result"><p>Keyboard: ₹' + keyboard.toLocaleString("en-IN") + '</p></div>' +
+            '<div class="result"><p>Mouse: ₹' + mouse.toLocaleString("en-IN") + '</p></div>' +
+            '<div class="result"><p>Headset: ₹' + headset.toLocaleString("en-IN") + '</p></div>' +
+            '<div class="result"><strong>Total Budget: ₹' + total.toLocaleString("en-IN") + '</strong></div>'
+        );
+
+        updateRGB();
+    });
+
+    // Reset customization
+    $("#reset").click(function () {
+        $("#keyboard").prop("selectedIndex", 0);
+        $("#mouse").prop("selectedIndex", 0);
+        $("#headset").prop("selectedIndex", 0);
+        $("#rgb").val("#a855f7");
+
+        $("#budgetResult").empty();
+
+        updateRGB();
+
+        alert("Gaming setup has been reset!");
+    });
+
+    updateRGB();
+});
+</script>
+
+</body>
+</html>
